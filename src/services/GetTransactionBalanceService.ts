@@ -7,7 +7,7 @@ interface Request {
   type: 'income' | 'outcome';
 }
 
-class CreateTransactionService {
+class GetTransactionBalanceService {
   private transactionsRepository: TransactionsRepository;
 
   constructor(transactionsRepository: TransactionsRepository) {
@@ -15,19 +15,11 @@ class CreateTransactionService {
   }
 
   public execute({title, value, type}: Request): Transaction {
-
-    const balance = this.transactionsRepository.getBalance();
-
-    if(type === 'outcome' && (balance.total - value) < 0) {
-      throw Error('Insufficient balance to carry out this transaction.');
-    }
-
     const transaction = this.transactionsRepository.create({
       title, value, type
     });
 
     return transaction;
-
   }
 }
 
